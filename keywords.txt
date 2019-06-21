@@ -1,0 +1,27 @@
+#######################################
+# Syntax Coloring DFrobot_nfc
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFrobot_nfc	KEYWORD1
+DFRobot_PN532_IIC	KEYWORD1
+DFRobot_PN532_UART	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################	
+DFRobot_PN532  KEYWORD1
+begin	KEYWORD2
+readUid	KEYWORD2
+readData	KEYWORD2
+writeData	KEYWORD2
+scan	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+BMI160_OK	LITERAL1
