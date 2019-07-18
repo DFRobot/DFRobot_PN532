@@ -1,0 +1,46 @@
+#######################################
+# Syntax Coloring DFrobot_nfc
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot_PN532	KEYWORD1
+DFRobot_PN532_IIC	KEYWORD1
+DFRobot_PN532_UART	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################	
+begin	KEYWORD2
+readUid	KEYWORD2
+readData	KEYWORD2
+writeData	KEYWORD2
+scan	KEYWORD2
+writeNTAG	KEYWORD2
+readNTAG	KEYWORD2
+getInformation	KEYWORD2
+
+readUltralight	KEYWORD2
+writeUltralight	KEYWORD2
+printi	KEYWORD2
+uidlenght	KEYWORD2
+uid	KEYWORD2
+
+SAK	KEYWORD2
+AQTA	KEYWORD2
+cardType	KEYWORD2
+Manufacturer	KEYWORD2
+RFTechnology	KEYWORD2
+usersize	KEYWORD2
+blockSize	KEYWORD2
+blockNumber	KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+BMI160_OK	LITERAL1
+PN532_IRQ	LITERAL1
+POLLING	LITERAL1
+INTERRUPT	LITERAL1
+BLOCK_SIZE	LITERAL1
