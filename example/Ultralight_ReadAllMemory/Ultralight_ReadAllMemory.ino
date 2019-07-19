@@ -102,6 +102,7 @@ void loop() {
           printi(i);
         }
       }
+      }
     }
     else {
       Serial.println("The card type is not Ultralight...");
