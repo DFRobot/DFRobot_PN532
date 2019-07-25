@@ -6,30 +6,28 @@
     @version  V1.0
     @date  07/03/2019
 
-    @brief his demo runs on the arduino platform
-           Download this demo to View everything in CARD which type is mifareclassic
+    @brief This demo runs on the arduino platform。
+           Download this demo to read all the memories in the card which type is MIFARE Classic
 
-    This demo and related libraries are for DFRobot Gravity: I2C NFC Module
+    This demo and related libraries are for DFRobot Gravity: I2C&UART NFC Module
     Product(CH): http://www.dfrobot.com.cn/goods-762.html
     Product(EN): https://www.dfrobot.com/product-892.html
 */
 
 #include <DFRobot_PN532.h>
 
-#define PN532_IRQ      (4)
+#define PN532_IRQ       (2)
 #define  INTERRUPT      (1)
 #define  POLLING        (0)
 //use this line for a breakout or shield with an I2C connection
 //check the card by polling
-DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);  //Use abbreviations instead of full names
+DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);  
 
 uint8_t dataRead[16] = {0};
 struct card NFCcard ;
-//This procedure is to print the corresponding module of I.
+//This procedure is to print the corresponding block.
 void printi(uint8_t block) {
-  //uint8_t data[16];
-  if (nfc.readData(dataRead, block) == 1) {               /*Read 16 data in module 1 of IC card*/
-    //Serial.println("Data read(HEX):");
+  if (nfc.readData(dataRead, block) == 1) {        
     for (int i = 0; i < 16; i++) {
       Serial.print(dataRead[i], HEX);
       Serial.print(" ");
@@ -53,12 +51,6 @@ void setup() {
 
 void loop() {
   /*Check if there is an IC card*/
-  //uint8_t data[16];
-  //struct card card ;
-  //Wait for a card that supports the ISO/IEC1443-3,Type A standard
-  //
-  //Serial.println("Waiting for a card......");
-  delay(2000);
   if (nfc.scan()) {
     /*!
       The 1024 × 8 bit EEPROM memory is organized in 16 sectors of 4 blocks. One block
@@ -112,7 +104,7 @@ void loop() {
 
   }
   else {
-    Serial.print("no card");
+    //Serial.println("no card");
   }
-  delay(2000);
+  delay(3000);
 }

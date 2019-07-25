@@ -1,54 +1,29 @@
 /*!
-    @flie NTAG21x_ReadAllmemory.ino
+    @flie NTAG21x_ReadWrite.ino
     @Copyright   [DFRobot](http://www.dfrobot.com), 2016
     @Copyright   GNU Lesser General Public License
     @version  V1.0
     @date  07/03/2019
 
-    @brief this demo runs on the arduino platform
-           Download this demo to View everything in NTAG'S memory
-
-    This demo and related libraries are for DFRobot Gravity: I2C NFC Module
+    @brief This demo runs on the arduino platform
+           Download this demo to write something into the card which type is NTAG21x
+           ,then reads what has been written
+    This demo and related libraries are for DFRobot Gravity: I2C&UART NFC Module
     Product(CH): http://www.dfrobot.com.cn/goods-762.html
     Product(EN): https://www.dfrobot.com/product-892.html
 */
 
-
-
 #include <DFRobot_PN532.h>
 
+#define block          (5)
 
-//#define NTAG213_LENGTH      (44)
-//#define NTAG215_LENGTH      (134)
-//#define NTAG216_LENGTH      (230)
-//Initialize mega2560
-
-
-#define PN532_IRQ       (4)
+#define  PN532_IRQ      (2)
 #define  INTERRUPT      (1)
 #define  POLLING        (0)
 //use this line for a breakout or shield with an I2C connection
 //check the card by polling
-DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);  //Use abbreviations instead of full names
-uint8_t dataRead[4];
-struct card NFCcard ;
-
-//This procedure is to print the corresponding module of I.
-void printi(uint8_t block) {
-  //uint8_t data[4];
-  Serial.print(":");
-  if (nfc.readNTAG(dataRead, block) == 1) {               /*Read 16 data in module 1 of IC card*/
-    //Serial.println("Data read(HEX):");
-    for (int i = 0; i < 4; i++) {
-      Serial.print(dataRead[i], HEX);
-      Serial.print(" ");
-    }
-    Serial.println("");
-  }
-  else {
-    Serial.println("Read failure");
-  }
-}
+DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);
+struct card NFCcard;
 
 void setup() {
   Serial.begin(115200);
@@ -61,12 +36,10 @@ void setup() {
 }
 
 void loop() {
-  /*Check if there is an IC card*/
 
-  //Wait for a card that supports the ISO/IEC1443-3,Type A standard
-  //
-  //Serial.println("Waiting for a card......");
-  delay(2000);
+  uint8_t dataWrite[4] = {2, 0, 1, 9};
+  uint8_t dataRead[4];
+
   if (nfc.scan()) {
     /*!
       The NTAG's EEPROM memory is organized in pages with 4 bytes per page. NTAG213 variant has
@@ -94,36 +67,33 @@ void loop() {
               4
               ...                     user memory
               225
-    */
-    //Print out everything in memory
-    NFCcard = nfc.getInformation();
+    */  NFCcard = nfc.getInformation();
     if (NFCcard.AQTA[1] == 0x44 && memcmp(NFCcard.cardType, "Ultralight", 10) != 0) {
-      Serial.println("----------------Here is the card information to read-------------------");
-      for (int i = 0; i < NFCcard.blockNumber; i++) {
-        Serial.print("block "); Serial.print(i);
-        if (i == 0 || i == 1 || i == 2) {
-          //Serial.print("Block ");printi(i);
-          Serial.print("(Manufacturer data and lock bytes)--------------->");
-          printi(i);
-        }
-        else if (i == 3) {
-          Serial.print("(Capability Container)--------------------------->");
-          printi(i);
-        }
-        else if (i == NFCcard.blockNumber - 5) {
-          Serial.print("(Dynamic lock bytes)----------------------------->");
-          printi(i);
-        }
-        else if (i > (NFCcard.blockNumber - 5) && i <  NFCcard.blockNumber) {
-          Serial.print("(Configuration pages)---------------------------->");
-          printi(i);
-        }
-        else {
-          Serial.print("------------------------------------------------->");
-          printi(i);
-        }
+      Serial.print("Data to be written(HEX):");
+      for (int i = 0; i < 4; i++) {
+        Serial.print(dataWrite[i], HEX);
+        Serial.print(" ");
+      }
+      Serial.println("");
+      Serial.print("The execution result:");
+      if (nfc.writeNTAG(block, dataWrite) == 1) {
+        Serial.println("write success");
+      }
+      else {
+        Serial.println("write failure");
+      }
+      Serial.print("Data read(HEX):");
+      if (nfc.readNTAG(dataRead, block) == 1) {
 
-
+        Serial.print(":");
+        for (int i = 0; i < 4; i++) {
+          Serial.print(dataRead[i], HEX);
+          Serial.print(" ");
+        }
+        Serial.println("");
+      }
+      else {
+        Serial.println("Read failure");
       }
     }
     else {
@@ -131,7 +101,7 @@ void loop() {
     }
   }
   else {
-    Serial.println("no card");
+    //Serial.println("no card");
   }
   delay(2000);
 }
