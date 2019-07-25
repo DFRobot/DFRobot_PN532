@@ -27,7 +27,7 @@
 #define  POLLING        (0)
 // Use this line for a breakout or shield with an I2C connection
 // Check the card by polling
-DFRobot_PN532_IIC  nfc(PN532_IRQ, INTERRUPT); 
+DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING); 
 struct card NFCcard;
 
 void setup() {
