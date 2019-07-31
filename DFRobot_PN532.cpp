@@ -341,7 +341,11 @@ bool DFRobot_PN532::checkDCS(int x)
         return 0;
 }
 bool DFRobot_PN532::writeData(int block, uint8_t data[])
-{   if(block > 255 || (block + 1)%4 == 0 || block ==0 )
+{   if(block < 128 && ( (block + 1)%4 == 0 || block ==0 ))
+        return false;
+    if((block >127 && block <256) && ((block + 1)%16 == 0))
+        return false;
+    if(block > 255)
         return false;
     if(!this->nfcEnable)
         return false;
