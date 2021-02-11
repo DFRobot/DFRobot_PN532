@@ -375,7 +375,7 @@ void DFRobot_PN532::writeData(int block, uint8_t index, uint8_t data)
 {
     if(!this->nfcEnable)
         return;
-    index = max(min(index,16),1);
+    index = max(min(index, (uint8_t)16), (uint8_t)1);
     this->readData(block);
     this->blockData[index - 1] = data;
     this->writeData(block, this->blockData);
