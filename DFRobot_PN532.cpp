@@ -7,7 +7,6 @@
 #endif
 #include <Wire.h>
 #define PN532_PACKBUFFSIZ 64
-
 /*!
     The NTAG's EEPROM memory is organized in pages with 4 bytes per page. NTAG213 variant has
     45 pages, NTAG215 variant has 135 pages and NTAG216 variant has 231 pages in total.
@@ -365,7 +364,6 @@ bool DFRobot_PN532::writeData(int block, uint8_t data[])
     this->readAck(16);
     return true;
 }
-
 /*!
    It takes three steps to write a piece of data to a card
    1.Read out all the data for one block(every block have 16 data.).
