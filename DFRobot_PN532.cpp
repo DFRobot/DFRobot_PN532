@@ -364,7 +364,6 @@ bool DFRobot_PN532::writeData(int block, uint8_t data[])
     this->readAck(16);
     return true;
 }
-
 /*!
    It takes three steps to write a piece of data to a card
    1.Read out all the data for one block(every block have 16 data.).
