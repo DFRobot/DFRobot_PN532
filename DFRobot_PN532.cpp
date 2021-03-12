@@ -7,10 +7,6 @@
 #endif
 #include <Wire.h>
 #define PN532_PACKBUFFSIZ 64
-
-#define SDA_PIN 21
-#define SCL_PIN 22
-
 /*!
     The NTAG's EEPROM memory is organized in pages with 4 bytes per page. NTAG213 variant has
     45 pages, NTAG215 variant has 135 pages and NTAG216 variant has 231 pages in total.
@@ -369,16 +365,6 @@ bool DFRobot_PN532::writeData(int block, uint8_t data[])
     return true;
 }
 
-const int min(const uint8_t a, const int b)
-{
-    return (b < a) ? b : a;
-}
-
-const int max(const int a, const int b)
-{
-    return (b > a) ? b : a;
-}
-
 /*!
    It takes three steps to write a piece of data to a card
    1.Read out all the data for one block(every block have 16 data.).
@@ -654,7 +640,7 @@ bool DFRobot_PN532_IIC::begin(void) {   //nfc Module initialization
     cmdWrite[1] = 0x01; // normal mode;
     cmdWrite[2] = 0x14; // timeout 50ms * 20 = 1 second
     cmdWrite[3] = 0x01; // use IRQ pin!
-    Wire.begin(SDA_PIN, SCL_PIN);
+    Wire.begin();
     nfcEnable = true;
     writeCommand(cmdWrite,4);
     delay(10);
