@@ -338,7 +338,7 @@ bool DFRobot_PN532::checkDCS(int x)
     {
         sum += this->receiveACK[i];
     }
-    dcs = 0xff - sum&0xff;
+    dcs = 0xff - (sum&0xff);
     if(dcs==this->receiveACK[x - 2])
         return 1;
     else
