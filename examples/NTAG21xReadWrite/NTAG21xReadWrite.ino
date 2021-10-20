@@ -1,18 +1,15 @@
 /*!
-    @flie NTAG21x_ReadWrite.ino
-    @Copyright   [DFRobot](http://www.dfrobot.com), 2016
-    @Copyright   GNU Lesser General Public License
-    @version  V1.0
-    @date  07/03/2019
-
-    @brief This demo runs on the arduino platform
-           Download this demo to write something into the card which type is NTAG21x
-           ,then reads what has been written
-    This demo and related libraries are for DFRobot Gravity: I2C&UART NFC Module
-    Product(CH): http://www.dfrobot.com.cn/goods-762.html
-    Product(EN): https://www.dfrobot.com/product-892.html
+ *@file NTAG21xReadWrite.ino
+ *@brief read data and write data to nfc card
+ *@details This demo runs on the arduino platform
+           Download this demo to write something into the card which type is NTAG21x,then reads what has been written
+ *@copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ *@license     The MIT license (MIT)
+ *@author [fengli](li.feng@dfrobot.com)
+ *@version  V1.0
+ *@date  2019-7-3
+ *@url https://github.com/DFRobot/DFRobot_PN532
 */
-
 #include <DFRobot_PN532.h>
 
 #define block          (5)
@@ -23,7 +20,7 @@
 //use this line for a breakout or shield with an I2C connection
 //check the card by polling
 DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);
-struct card NFCcard;
+DFRobot_PN532:: sCard_t NFCcard;
 
 void setup() {
   Serial.begin(115200);

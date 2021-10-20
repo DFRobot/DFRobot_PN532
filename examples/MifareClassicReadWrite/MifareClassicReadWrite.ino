@@ -1,18 +1,15 @@
 /*!
-    @flie read_S50_INTERRUPT.ino
-    @Copyright   [DFRobot](http://www.dfrobot.com), 2016
-    @Copyright   GNU Lesser General Public License
-    @version  V1.0
-    @date  07/03/2019
-
-    @brief This demo runs on the arduino uno platform
-           Download this demo to learn how to read data on card and read data by interrupt.
-
-           We can read the data on the card to see if the write is successful
-
-    This demo and related libraries are for DFRobot Gravity: I2C&UART NFC Module
-    Product(CH): http://www.dfrobot.com.cn/goods-762.html
-    Product(EN): https://www.dfrobot.com/product-892.html
+ *@file MifareClassicReadWrite.ino
+ *@brief read data and write data to nfc card
+ *@details  This demo runs on the arduino platform.
+           Download this demo to learn how to wirte data to card.
+           We can read the data on the card to see if the write is successful.
+ *@copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ *@license     The MIT license (MIT)
+ *@author [fengli](li.feng@dfrobot.com)
+ *@version  V1.0
+ *@date  2019-7-3
+ *@url https://github.com/DFRobot/DFRobot_PN532
 */
 #include <DFRobot_PN532.h>
 
@@ -21,13 +18,14 @@
 #define  INTERRUPT      (1)
 #define  POLLING        (0)
 //use this line for a breakout or shield with an I2C connection
-//check the card by interruption
-DFRobot_PN532_IIC  nfc(PN532_IRQ, INTERRUPT);  
-uint8_t dataWrite[BLOCK_SIZE] = {"DFRobot NFC"}; 
+//check the card by polling
+DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);
+uint8_t dataWrite[BLOCK_SIZE] = {"DFRobot NFC"};
 uint8_t dataRead[16] = {0};
-struct card NFCcard ;
+DFRobot_PN532:: sCard_t NFCcard;
 
 void setup() {
+
   Serial.begin(115200);
   while (!nfc.begin()) {
     Serial.println("initial failure");
@@ -35,13 +33,12 @@ void setup() {
   }
   Serial.println("Waiting for a card......");
 }
-
 void loop() {
+  //Scan, write and read NFC card every 2s
   //Print all what is to be written and read
-  if (nfc.scan() == true) {
-
+  if (nfc.scan()) {
     NFCcard = nfc.getInformation();
-    if (NFCcard.AQTA[1] == 0x02 || NFCcard.AQTA[1] == 0x04) {
+    if ((NFCcard.AQTA[1] == 0x02 || NFCcard.AQTA[1] == 0x04)) {
       Serial.print("Data to be written(string):");
       Serial.println((char *)dataWrite);
       Serial.print("Data to be written(HEX):");
@@ -61,11 +58,11 @@ void loop() {
       Serial.println((char *)dataRead);
       Serial.print("Data read(HEX):");
       for (int i = 0; i < BLOCK_SIZE; i++) {
-        //data[i] =  dataRead[i];
         Serial.print(dataRead[i], HEX);
         Serial.print(" ");
         dataRead[i] = 0;
       }
+      Serial.println();
     }
     else {
       Serial.println("The card type is not mifareclassic...");
@@ -73,6 +70,6 @@ void loop() {
   }
   else {
     //Serial.println("no card");
-  }    
-  delay(1000);
+  }
+  delay(2000);
 }

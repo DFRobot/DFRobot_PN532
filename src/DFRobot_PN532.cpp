@@ -1,46 +1,22 @@
-#include"DFRobot_PN532.h"
-#include <Wire.h>
-#if ARDUINO >= 100
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
-#include <Wire.h>
-#define PN532_PACKBUFFSIZ 64
 /*!
-    The NTAG's EEPROM memory is organized in pages with 4 bytes per page. NTAG213 variant has
-    45 pages, NTAG215 variant has 135 pages and NTAG216 variant has 231 pages in total.
-    The memory organization can be seen  in the following table .
-    
-            page Adr      BYTE number within a page
-                          0            |    1    |   2       |    3      |    
-               0                       serial  number
-               1                       serial  number
-               2          serial number|internal | lock bytes| lock bytes|
-               3                       Capability Container(cc)
-               ----------------------------------------------------------------
-               -----------------------NTAG213---------------------------------- 
-               4
-               ...                     user memory
-               39
-               ----------------------------------------------------------------
-               ------------------------NTAG215---------------------------------
-               4
-               ...                     user memory
-               129
-               ----------------------------------------------------------------
-               ------------------------NTAG216---------------------------------
-               4
-               ...                     user memory
-               225
+ *@file DFRobot_PN532.cpp
+ *@brief Define the basic structure of class DFRobot_PN532, the implementation of the basic methods
+ *@copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ *@license     The MIT license (MIT)
+ *@author [fengli](li.feng@dfrobot.com)
+ *@version  V1.1
+ *@date  2019-10-15
+ *@url https://github.com/DFRobot/DFRobot_PN532
 */
+#include"DFRobot_PN532.h"
+
+
 uint8_t DFRobot_PN532::getUltraversion(uint8_t block){
     if(!this->nfcEnable)
         return -1;
     if(!scan())
         return -1;
     unsigned char cmdRead[4];
-    unsigned char sum = 0,count = 0;
         cmdRead[0] = COMMAND_INDATAEXCHANGE;
         cmdRead[1] = 1;                   /* Card number */
         cmdRead[2] = CARD_CMD_READING;     /* NTAG Read command = 0x30 */
@@ -63,7 +39,6 @@ uint8_t DFRobot_PN532::readNTAG(uint8_t *buffer,uint8_t block){
     if(!scan())
         return -1;
     unsigned char cmdRead[4];
-    unsigned char sum = 0,count = 0;
         cmdRead[0] = COMMAND_INDATAEXCHANGE;
         cmdRead[1] = 1;                   /* Card number */
         cmdRead[2] = CARD_CMD_READING;     /* NTAG Read command = 0x30 */
@@ -96,7 +71,6 @@ bool  DFRobot_PN532::writeNTAG(int block, uint8_t data[]){
         cmdWrite[1] = 1;                      /* Card number */
         cmdWrite[2] = CARD_CMD_WRITEINGTONTGE;       /* NTAG Write command = 0xA2 */
         cmdWrite[3] = block;
-    unsigned char sum=0,count=0;
     for(int i = 4;i < 8;i++) cmdWrite[i]=data[i - 4];// Data to be written
     this->writeCommand(cmdWrite,8);
 
@@ -104,28 +78,7 @@ bool  DFRobot_PN532::writeNTAG(int block, uint8_t data[]){
     return true;
 
 }
-     /*!
-     The Ultralight'S EEPROM memory is organized in pages with 4 bytes per page. The Ultralight
-     has 14d pages in total. The memory organization can be seen  in the following table . 
-     
-              page Adr              BYTE number within a page
-                           0           |    1    |   2       |    3      |    
-               0                       serial  number
-               1                       serial  number
-               2          serial number|internal |       lock bytes      |
-               3           OTP         | OTP     |  OTP      |   OTP     |
-               -----------------------------------------------------------
-               4
-               ...                     user memory
-               15                  
-               -----------------------------------------------------------
-               16
-               17                      Configuration pages   
-               18
-               19                      Counter pages
-     
-     
-*/
+
 uint8_t DFRobot_PN532::readUltralight(uint8_t *buffer,uint8_t block){
     if(block > 41)
       return -1;
@@ -134,7 +87,6 @@ uint8_t DFRobot_PN532::readUltralight(uint8_t *buffer,uint8_t block){
     if(!scan())
         return -1;
     unsigned char cmdRead[4];
-    unsigned char sum = 0,count = 0;
         cmdRead[0] = COMMAND_INDATAEXCHANGE;
         cmdRead[1] = 1;                   /* Card number */
         cmdRead[2] = CARD_CMD_READING;     /* Ultralight Read command = 0x30 */
@@ -166,21 +118,12 @@ bool DFRobot_PN532::writeUltralight(int block, uint8_t data[]){
         cmdWrite[1] = 1;                      /* Card number */
         cmdWrite[2] = CARD_CMD_WRITEINGTOULTRALIGHT;       /* Ultralight Write command = 0xA2 */
         cmdWrite[3] = block;
-    unsigned char sum=0,count=0;
     for(int i = 4;i < 8;i++) cmdWrite[i]=data[i - 4];// Data to be written
     this->writeCommand(cmdWrite,8);
     this->readAck(16);
     return true;
 
 }
-
-
-
-/*!The PASSWORD will be checked once the card is read or written,
-   the password of the card usually set by the manufacturer,
-   the default passWord is 0xff 0xff 0xff 0xff 0xff 0xff.
-*/
-
 
 bool DFRobot_PN532::passWordCheck(int block,uint8_t id[],uint8_t st[])
 {   //bool success = false;
@@ -191,7 +134,6 @@ bool DFRobot_PN532::passWordCheck(int block,uint8_t id[],uint8_t st[])
     cmdPassWord[1] = 1;                              /* The quantity number of the maxium card that can be detected in every research*/
     cmdPassWord[2] = 0x60;                          
     cmdPassWord[3] = block;
-    unsigned char sum=0,count=0;
     for(int i = 4;i < 10;i++) cmdPassWord[i] = st[i - 4];              // PassWord
     for(int i = 10;i < 14;i++) cmdPassWord[i] = id[i - 10];           // nfcUid
     this->writeCommand(cmdPassWord,14);     /*!Send a series of commands to the chip*/ 
@@ -208,8 +150,8 @@ bool DFRobot_PN532::passWordCheck(int block,uint8_t id[],uint8_t st[])
     else
         return false; 
 }
-struct card DFRobot_PN532::getInformation(){
-    struct card card;
+DFRobot_PN532:: sCard_t DFRobot_PN532::getInformation(){
+    sCard_t card;
     uint8_t cmdnfcUid[11];
     cmdnfcUid[0] = COMMAND_INLISTPASSIVETARGET;
     cmdnfcUid[1] = 1;                              // The quantity number of the maxium card that can be detected in every research
@@ -326,19 +268,21 @@ struct card DFRobot_PN532::getInformation(){
 }
 bool DFRobot_PN532::checkDCS(int x)  
 {
+    uint32_t sum = 0;
+	uint32_t dcs = 0;
     if(!this->nfcEnable)
-        return 0;
-    unsigned char sum=0,dcs=0;
+        return false;
+
     /*! Calculate the DSC value and compare it with the DSC from Ack*/
     for(int i = 6;i < x - 2;i++)
     {
         sum += this->receiveACK[i];
     }
-    dcs = 0xff - sum&0xff;
+    dcs = 0xff - (sum&0xff);
     if(dcs==this->receiveACK[x - 2])
-        return 1;
+        return true;
     else
-        return 0;
+        return false;
 }
 bool DFRobot_PN532::writeData(int block, uint8_t data[])
 {   if(block < 128 && ( (block + 1)%4 == 0 || block ==0 ))
@@ -358,19 +302,12 @@ bool DFRobot_PN532::writeData(int block, uint8_t data[])
         cmdWrite[1] = 1;                                     /* Card number */
         cmdWrite[2] = CARD_CMD_WRITEINGTOMIFARECLASSIC;       /* MifareClassic Write command = 0xA0 */
         cmdWrite[3] = block;
-    unsigned char sum=0,count=0;
     for(int i = 4;i < 20;i++) cmdWrite[i]=data[i - 4];// Data to be written
     this->writeCommand(cmdWrite,20);
     this->readAck(16);
     return true;
 }
-/*!
-   It takes three steps to write a piece of data to a card
-   1.Read out all the data for one block(every block have 16 data.).
-   2.Change one data from sixteen data.
-   3.Write 16 data changes to the card.
-   so ...
-*/
+
 void DFRobot_PN532::writeData(int block, uint8_t index, uint8_t data)
 {
     if(!this->nfcEnable)
@@ -451,33 +388,6 @@ String DFRobot_PN532::readUid()
     }
     return nfcUidSrt;
 }
-/*!
- There is 1kb of storage space in the card,this space is divided into 16 
- areas and every area has four blocks of data,One of the four blocks stores 
- the password that cannot be changed.
-
-*/
-
-
-/*!
- The 1024 × 8 bit EEPROM memory is organized in 16 sectors of 4 blocks. One block
-contains 16 bytes.
-     Sector  0       block 0           (Manufacturer   block)              Manufacturer  Data  
-                     block 1           (data)                            
-                     block 2           (data)
-                     block 3           (Sector Trailer 0)                  keyA   Access Bits   KeyB
-     Sector  1       block 4           (data)            
-                     block 5           (data)                            
-                     block 6           (data)
-                     block 7           (Sector Trailer 1)                  keyA   Access Bits   KeyB    
-     ...                     
-     ...
-     ...
-     Sector 15       block 60           (data)            
-                     block 61           (data)                            
-                     block 62           (data)
-                     block 63           (Sector Trailer 15)                  keyA   Access Bits   KeyB
-*/
 
 
 uint8_t DFRobot_PN532::readData(uint8_t *buffer,uint8_t block){
@@ -501,7 +411,6 @@ String DFRobot_PN532::readData(int page) {
     if(!passWordCheck(page,nfcUid,nfcPassword))
         return "read error!";
     unsigned char cmdRead[4];
-    unsigned char sum = 0,count = 0;
         cmdRead[0] = COMMAND_INDATAEXCHANGE;
         cmdRead[1] = 1;                   /* Card number */
         cmdRead[2] = CARD_CMD_READING;     /* Mifare Read command = 0x30 */
@@ -560,6 +469,7 @@ bool DFRobot_PN532_IIC::readAck(int x,long timeout ) {
     pn532ack[3] = 0x00;
     pn532ack[4] = 0xFF;
     pn532ack[5] = 0x00;
+	timeout = 0;
     if(_mode == 1){
     if(!waitRemind())
         return false;
@@ -697,8 +607,7 @@ bool DFRobot_PN532_UART::readAck(int x, long timeout) //Read the data from the s
     pn532ack[3] = 0x00;
     pn532ack[4] = 0xFF;
     pn532ack[5] = 0x00;
-    //unsigned char i = x;
-    long _timeout = millis();
+	timeout = 0;
     delay(100);
         if(this->_serial->available()){
             
@@ -716,16 +625,17 @@ bool DFRobot_PN532_UART::readAck(int x, long timeout) //Read the data from the s
     return true;
             
 }
-/*Send commands to the chip through serial ports*/
+
 void DFRobot_PN532_UART::writeCommand(uint8_t *command_data, uint8_t bytes)
 {   
+    
+    long timeout = millis();
     if(this->_serial == NULL)
         return;
-    char residual;
-    long timeout = millis();
+    char residual ;
     while(this->_serial->available()){
         residual = this->_serial->read();
-        if(millis() - timeout >= this->uartTimeout && this->_serial->available())
+        if(((millis() - timeout) >= this->uartTimeout) && this->_serial->available())
             return ;
     }
     uint8_t checksum;

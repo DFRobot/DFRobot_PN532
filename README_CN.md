@@ -5,7 +5,8 @@ This example is for pn532 chip reads and writes CARDS.
 
 ![Product Image](./resources/images/DFR0231-H.png)
 
-## Product Link (https://www.dfrobot.com/product-1917.html)
+
+## Product Link (https://www.dfrobot.com.cn/goods-2029.html)
     SKU: DFR0231-H
 
 ## Table of Contents
@@ -173,8 +174,3 @@ micro:bit         |      √       |              |             |
 ## Credits
 
 Written by fengli(li.feng@dfrobot.com), 2020.7.31 (Welcome to our [website](https://www.dfrobot.com/))
-
-
-
-
-

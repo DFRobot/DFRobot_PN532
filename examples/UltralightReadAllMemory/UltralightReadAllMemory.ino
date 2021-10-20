@@ -1,18 +1,15 @@
 /*!
-    @flie Ultralight_ReadAllMemory.ino
-    @Copyright   [DFRobot](http://www.dfrobot.com), 2016
-    @Copyright   GNU Lesser General Public License
-    @version  V1.0
-    @date  07/03/2019
-
-    @brief This demo runs on the arduino platform.
+ *@file UltralightReadAllMemory.ino
+ *@brief read all memories in Ultralight.
+ *@details  This demo runs on the arduino platform.
            Download this demo to read all memories in Ultralight.
-
-    This demo and related libraries are for DFRobot Gravity: I2C NFC Module
-    Product(CH): http://www.dfrobot.com.cn/goods-762.html
-    Product(EN): https://www.dfrobot.com/product-892.html
+ *@copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ *@license     The MIT license (MIT)
+ *@author [fengli](li.feng@dfrobot.com)
+ *@version  V1.0
+ *@date  2019-7-3
+ *@url https://github.com/DFRobot/DFRobot_PN532
 */
-
 #include <DFRobot_PN532.h>
 
 // the IRQ and reset lines.  Use the value for the shield!
@@ -25,7 +22,7 @@
 DFRobot_PN532_IIC  nfc(PN532_IRQ, POLLING);
 
 uint8_t dataRead[4] = {0};
-struct card NFCcard ;
+DFRobot_PN532:: sCard_t NFCcard;
 
 void printi(uint8_t block) {
   //uint8_t data[4]={0};
