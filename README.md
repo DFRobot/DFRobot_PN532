@@ -1,4 +1,6 @@
 ﻿# DFRobot_PN532
+ - [中文版](./README_CN.md)
+
 The PN532 is a highly integrated transmission module for contactless communication at 13.56 MHz including microcontroller functionality based on an 80C51 core with 40 Kbytes of ROM and 1 Kbytes of RAM. 
 The PN532 combines a modulation and demodulation concept completely integrated for different kinds of contactless communication methods and protocols at 13.56 MHz with an easy-to-use firmware for the different supported modes and the required host controller interfaces. 
 This example is for pn532 chip reads and writes CARDS.
