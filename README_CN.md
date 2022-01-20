@@ -147,7 +147,7 @@ PN532结合了调制和解调的概念，完全集成了不同种类的非接触
    sCard_t getInformation();
 	 
 ```
-## Compatibility
+## 兼容性
 主板                | read and write   | Can be accurately identified？ | Remarks
 ------------------- | :--------------: | :----------------------------: |-----
 Mifareclassic S50   |      √           |      √                         | 
@@ -158,7 +158,7 @@ NTAG 216            |      √           |       √                         |
 Ultralight          |      √           |       √                         |           
 
 
-## Compatibility
+## 兼容性
 
 主板                | Work Well    | Work Wrong   | Untested    | Remarks
 ------------------ | :----------: | :----------: | :---------: | -----
