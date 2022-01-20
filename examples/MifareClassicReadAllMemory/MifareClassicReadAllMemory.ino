@@ -3,14 +3,14 @@
  *@file MifareClassicReadAllMemory.ino
  *@brief read data
  *@details  This demo runs on the arduino platform。
-           Download this demo to read all the memories in the card which type is MIFARE Classic
+ *@ Download this demo to read all the memories in the card which type is MIFARE Classic
  *@copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  *@license     The MIT license (MIT)
  *@author [fengli](li.feng@dfrobot.com)
  *@version  V1.0
  *@date  2019-7-3
  *@url https://github.com/DFRobot/DFRobot_PN532
-*/
+ */
 #include <DFRobot_PN532.h>
 
 #define PN532_IRQ       (2)

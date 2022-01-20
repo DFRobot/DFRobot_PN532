@@ -2,20 +2,20 @@
  *@file nfcCardInfo.ino
  *@brief read the basic information of the card
  *@details  This demo runs on the arduino platform.
-           Download this demo to read the basic information of the card,
-           including UID, manufacturer, storage space, RF technology etc.
-           
-           Suported NFC card/tag:
-           1.MIFARE Classic S50/S70
-           2.NTAG213/215/216
-           3.MIFARE Ultralight
+ *@        Download this demo to read the basic information of the card,
+ *@        including UID, manufacturer, storage space, RF technology etc.
+ *@        
+ *@        Suported NFC card/tag:
+ *@        1.MIFARE Classic S50/S70
+ *@        2.NTAG213/215/216
+ *@        3.MIFARE Ultralight
  *@copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  *@license     The MIT license (MIT)
  *@author [fengli](li.feng@dfrobot.com)
  *@version  V1.0
  *@date  2019-7-3
  *@url https://github.com/DFRobot/DFRobot_PN532
-*/
+ */
 #include <DFRobot_PN532.h>
 
 #define  BLOCK_SIZE      16

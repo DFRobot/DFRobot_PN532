@@ -2,15 +2,15 @@
  *@file readS50Uart.ino
  *@brief read data through serial ports.
  *@details  This demo runs on the Arduino MEGA2560 platform.
-           Download this demo to learn how to read data on card and read data through serial ports.
-           Read the data on the card to see if the write is successful.
+ *@        Download this demo to learn how to read data on card and read data through serial ports.
+ *@        Read the data on the card to see if the write is successful.
  *@copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  *@license     The MIT license (MIT)
  *@author [fengli](li.feng@dfrobot.com)
  *@version  V1.0
  *@date  2019-7-3
  *@url https://github.com/DFRobot/DFRobot_PN532
-*/
+ */
 #include <DFRobot_PN532.h>
 
 #define BLOCK_SIZE 16
