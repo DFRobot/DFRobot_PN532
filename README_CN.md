@@ -170,6 +170,7 @@ micro:bit         |      √       |              |             |
 ## 历史
 
 
+- 2024/12/12 - Version 1.0.1 released.
 - 2019/10/15 - Version 1.0.0 released.
 
 

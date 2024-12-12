@@ -16,6 +16,13 @@
 #include <Wire.h>
 #include "Arduino.h"
 
+#ifndef min
+#define min(a, b)                ((a) < (b) ? (a) : (b))
+#endif
+#ifndef max
+#define max(a, b)                ((a) > (b) ? (a) : (b))
+#endif
+
 #define PN532_PACKBUFFSIZ                   (64  )//The size of the packet buffer
 #define PN532_PREAMBLE                      (0x00)
 #define PN532_STARTCODE1                    (0x00)
